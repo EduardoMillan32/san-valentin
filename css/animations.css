@@ -1,0 +1,35 @@
+/* Animación de entrada de la flor */
+@keyframes grow {
+    0% { transform: scale(0) translateY(20px); opacity: 0; }
+    60% { transform: scale(1.1); }
+    100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+.flower-element {
+    position: absolute;
+    bottom: 0;
+    transform-origin: bottom center;
+    animation: grow 1.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+    cursor: pointer;
+    pointer-events: auto;
+    filter: drop-shadow(0 5px 5px rgba(0,0,0,0.1));
+    transition: transform 0.2s;
+}
+
+.flower-element:hover {
+    transform: scale(1.2) rotate(5deg) !important; /* !important para sobreescribir el estilo inline temporalmente */
+    z-index: 100;
+}
+
+/* Animación de error (sacudida) */
+.shake {
+    animation: shake 0.5s;
+}
+
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+}

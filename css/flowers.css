@@ -1,0 +1,279 @@
+/* --- CONFIGURACIÓN BASE --- */
+.flower-container {
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 10;
+    transform-origin: bottom center;
+    pointer-events: none;
+    animation: grow-up 4s ease-out forwards;
+}
+
+@keyframes grow-up {
+    0% { transform: scale(0) translateY(100px); opacity: 0; }
+    100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+/* Tallo (Con volumen cilíndrico) */
+.stem {
+    width: 8px; 
+    height: 100px; /* Un poco más altos */
+    /* Degradado horizontal para simular que es un cilindro 3D */
+    background: linear-gradient(to right, #1b5e20, #4caf50, #1b5e20);
+    border-radius: 4px;
+    position: relative;
+    z-index: 1;
+    cursor: pointer;
+    pointer-events: auto;
+}
+
+/* Hojas (Más orgánicas) */
+.stem::before, .stem::after {
+    content: '';
+    position: absolute;
+    width: 30px; height: 15px;
+    background: linear-gradient(to bottom, #4caf50, #2e7d32);
+    border-radius: 0 50% 50% 50%;
+    z-index: -1;
+    box-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+}
+
+.stem::before {
+    top: 40%; left: -25px;
+    transform: rotate(-25deg);
+}
+
+.stem::after {
+    top: 55%; right: -25px;
+    transform: rotate(25deg) scaleX(-1);
+}
+
+/* Cabeza general (Animación de viento suave) */
+.flower-head {
+    position: relative;
+    z-index: 2;
+    cursor: pointer;
+    pointer-events: auto;
+    animation: sway 3s ease-in-out infinite alternate;
+    transform-origin: bottom center;
+    filter: drop-shadow(0 5px 5px rgba(0,0,0,0.2)); /* Sombra general */
+}
+
+@keyframes sway {
+    from { transform: rotate(-5deg); }
+    to { transform: rotate(5deg); }
+}
+
+/* =========================================
+   DISEÑOS REALISTAS (USANDO GRADIENTES)
+========================================= */
+
+/* --- TIPO 1: MARGARITA (Pétalos definidos) --- */
+.flower-type-1 {
+    width: 50px;
+    height: 50px;
+    position: relative;
+    background: transparent;
+}
+
+.flower-type-1::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: repeating-conic-gradient(
+        var(--petal-color, #ffffff) 0deg 15deg,         /* Pétalo blanco puro (variable) */
+        rgba(0,0,0,0.1) 15deg 20deg,                    /* Sombra transparente (se adapta a cualquier color) */
+        transparent 20deg 30deg                           /* Espacio entre pétalos */
+    );
+    border-radius: 50%;
+    z-index: -1;
+    -webkit-mask-image: radial-gradient(circle, black 65%, transparent 70%);
+    mask-image: radial-gradient(circle, black 65%, transparent 70%);
+}
+
+/* CAPA 2: El centro amarillo (Flotando encima) */
+.flower-type-1::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 18px;
+    height: 18px;
+    background: radial-gradient(circle at 30% 30%, 
+        #fbc02d, /* Amarillo luz fijo */
+        #f57f17  /* Naranja sombra fijo */
+    );
+    border-radius: 50%;
+    z-index: 2;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+}
+
+
+/* --- TIPO 2: TULIPÁN (Efecto Copa 3D) --- */
+.flower-type-2 {
+    width: 40px;
+    height: 50px;
+    /* Fondo base */
+    background: transparent;
+}
+
+/* Pétalo Izquierdo (Oscuro) */
+.flower-type-2::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 25px; height: 50px;
+    background: linear-gradient(to right, #ad1457, var(--petal-color, #e91e63));
+    border-radius: 50% 100% 0 50%;
+    transform: rotate(-10deg);
+    z-index: 1;
+}
+
+/* Pétalo Derecho (Claro) */
+.flower-type-2 .tulip-right {
+    position: absolute;
+    bottom: 0; right: 0;
+    width: 25px; height: 50px;
+    background: linear-gradient(to left, #f48fb1, var(--petal-color, #e91e63));
+    border-radius: 100% 50% 50% 0;
+    transform: rotate(10deg);
+    z-index: 2;
+}
+
+/* Pétalo Central (Con brillo) */
+.flower-type-2::after {
+    content: '';
+    position: absolute;
+    bottom: -2px; left: 50%;
+    transform: translateX(-50%);
+    width: 20px; height: 45px;
+    background: linear-gradient(to top, #880e4f, var(--petal-color, #e91e63));
+    border-radius: 50% 50% 10px 10px;
+    z-index: 3;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+}
+
+
+/* --- TIPO 3: ROSA (Capas en espiral) --- */
+.flower-type-3 {
+    width: 45px;
+    height: 40px;
+    background: var(--petal-color, #d32f2f);
+    border-radius: 0 0 20px 20px;
+    position: relative;
+    overflow: hidden;
+    /* Degradado para dar redondez a la base */
+    background-image: radial-gradient(circle at 50% 10%, rgba(255,255,255,0.3), rgba(0,0,0,0.3));
+}
+
+/* Capas internas (ilusión óptica de pétalos envueltos) */
+.flower-type-3::before {
+    content: '';
+    position: absolute;
+    top: -10px; left: 50%;
+    transform: translateX(-50%);
+    width: 35px; height: 35px;
+    border-radius: 50%;
+    background: transparent;
+    /* Sombras curvas que parecen pétalos */
+    box-shadow: 
+        0 10px 0 0 rgba(0,0,0,0.2), 
+        10px 5px 0 0 rgba(0,0,0,0.2),
+        -10px 5px 0 0 rgba(0,0,0,0.2);
+    z-index: 2;
+}
+
+/* Centro de la rosa (espiral) */
+.flower-type-3::after {
+    content: '';
+    position: absolute;
+    top: 5px; left: 50%;
+    transform: translateX(-50%);
+    width: 20px; height: 10px;
+    border-radius: 50%;
+    border-bottom: 3px solid rgba(0,0,0,0.3);
+    z-index: 3;
+}
+
+/* --- TIPO 4: GIRASOL FINAL (Flor Especial) --- */
+.flower-type-4 {
+    width: 60px; /* Más grande que las otras */
+    height: 60px;
+    background: transparent;
+    position: relative;
+    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5)); /* Resplandor dorado */
+    animation: pulse-glow 2s infinite alternate;
+}
+
+/* Pétalos del Girasol (Muchos y puntiagudos) */
+.flower-type-4::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: repeating-conic-gradient(
+        #ffc107 0deg 10deg,      /* Amarillo oro fijo */
+        #ff9800 10deg 15deg,     /* Naranja fijo */
+        transparent 15deg 20deg
+    );
+    border-radius: 50%;
+    z-index: 1;
+    -webkit-mask-image: radial-gradient(circle, black 60%, transparent 70%);
+    mask-image: radial-gradient(circle, black 60%, transparent 70%);
+}
+
+/* Centro del Girasol (Grande y con textura) */
+.flower-type-4::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 28px; height: 28px;
+    background: radial-gradient(circle, 
+        #5d4037 40%,  /* Café claro fijo */
+        #3e2723 100%  /* Café oscuro fijo */
+    );
+    border-radius: 50%;
+    z-index: 2;
+    background-image: repeating-radial-gradient(
+        transparent 0 2px, 
+        rgba(0,0,0,0.3) 2px 3px
+    );
+    border: 2px solid rgba(0,0,0,0.2);
+}
+
+/* Animación de latido para la flor final */
+@keyframes pulse-glow {
+    0% { transform: scale(1); filter: drop-shadow(0 0 5px rgba(255, 193, 7, 0.5)); }
+    100% { transform: scale(1.1); filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.8)); }
+}
+
+/* =========================================
+            EFECTO DE MARCHITARSE
+========================================= */
+
+@keyframes wither-away {
+    0% { 
+        transform: scale(1) rotate(0deg); 
+        opacity: 1; 
+        filter: grayscale(0); 
+    }
+    30% {
+        transform: scale(0.9) rotate(5deg); /* Pequeña inclinación triste */
+    }
+    100% { 
+        transform: scale(0) rotate(20deg); /* Desaparece rotando */
+        opacity: 0; 
+        filter: grayscale(1) brightness(0.5); /* Se vuelve gris y oscura */
+    }
+}
+
+/* Esta clase se aplicará con JS cuando rechace */
+.flower-container.withering {
+    /* !important para asegurar que sobrescriba la animación de entrada */
+    animation: wither-away 3s forwards ease-in-out !important;
+    pointer-events: none; /* Ya no se pueden tocar */
+}

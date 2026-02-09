@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para ti ❤️</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/flowers.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <canvas id="bg-canvas"></canvas>
+
+    <main class="ui-container">
+        <header>
+            <h1>El Jardín de Nuestro Amor</h1>
+            <p>Encuentra los origamis escondidos para hacer florecer este jardín.</p>
+        </header>
+
+        <section class="input-area">
+            <input type="text" id="code-input" placeholder="Ingresa el código aquí..." autocomplete="off">
+            <button id="plant-btn">Plantar Flor 🌸</button>
+        </section>
+
+        <div id="feedback-msg" class="message hidden"></div>
+    </main>
+
+    <div id="garden-container"></div>
+
+    <div id="modal-overlay" class="hidden">
+        <div class="modal-content">
+            <h2>¡Lo encontraste! ❤️</h2>
+            <p id="modal-message">Aquí irá el mensaje...</p>
+            <div class="modal-buttons">
+                <button id="btn-reject" class="hidden">Rechazar 💔</button>
+                <button id="btn-accept">Aceptar 🌹</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/garden.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
