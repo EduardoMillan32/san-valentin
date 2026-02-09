@@ -8,11 +8,12 @@ const modalOverlay = document.getElementById('modal-overlay');
 const modalMsg = document.getElementById('modal-message');
 const btnAccept = document.getElementById('btn-accept');
 const btnReject = document.getElementById('btn-reject');
+const FLOWERS_PER_LEVEL = 2;
 
 // Estado
 let currentLevel = 1; 
 let visualDeck = []; 
-let pendingFlower = null; 
+let pendingFlowersList = []; 
 let pendingHint = "";     
 let isLastOne = false;
 
@@ -54,7 +55,6 @@ function getNextVisual() {
 
 
 // --- EVENTOS ---
-
 btnCheck.addEventListener('click', checkCode);
 input.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') checkCode();
@@ -69,9 +69,11 @@ btnAccept.addEventListener('click', () => {
         launchFlowerExplosion();
     } else {
         // Nivel normal: planta una flor
-        if (pendingFlower) {
-            addFlowerToGarden(pendingFlower);
-            pendingFlower = null;
+        if (pendingFlowersList.length > 0) {
+            pendingFlowersList.forEach(flower => {
+                addFlowerToGarden(flower);
+            });
+            pendingFlowersList = [];
         }
     }
 
@@ -99,7 +101,6 @@ btnReject.addEventListener('click', () => {
 
 
 // --- LÓGICA DE VALIDACIÓN ---
-
 function checkCode() {
     const code = input.value.trim().toUpperCase(); 
     if (code === '') return;
@@ -111,7 +112,9 @@ function checkCode() {
         } else if (data.order < currentLevel) {
             showFeedback("¡Esa flor ya la plantaste mi amor! ❤️", "orange");
         } else {
-            showFeedback("¡Te adelantaste! 🙈 Guarda este para después.", "#2196f3");
+            const randomAhead = AHEAD_MSGS[Math.floor(Math.random() * AHEAD_MSGS.length)];
+            
+            showFeedback(randomAhead, "#2196f3");
             input.classList.add('shake');
             setTimeout(() => input.classList.remove('shake'), 500);
         }
@@ -125,12 +128,20 @@ function successEffect(code, data) {
     feedback.classList.add('hidden');
     input.value = '';
 
-    const visual = getNextVisual();
-    pendingFlower = {
-        type: visual.type,
-        color: visual.colorData ? visual.colorData.color : null,
-        center: visual.colorData ? visual.colorData.center : null
-    };
+    pendingFlowersList = [];
+
+    for (let i = 0; i < FLOWERS_PER_LEVEL; i++) {
+        const visual = getNextVisual(); // ¡Saca una carta nueva cada vez!
+        
+        const flowerData = {
+            type: visual.type,
+            color: visual.colorData ? visual.colorData.color : null,
+            center: visual.colorData ? visual.colorData.center : null
+        };
+        
+        // La guardamos en la lista
+        pendingFlowersList.push(flowerData);
+    }
 
     pendingHint = data.hint; 
     isLastOne = data.isFinal;
@@ -152,11 +163,12 @@ function failEffect() {
     const ui = document.querySelector('.ui-container');
     ui.classList.add('shake');
     setTimeout(() => ui.classList.remove('shake'), 500);
-    showFeedback("Código incorrecto amor...", "#888");
+    const randomAhead = ERROR_MSGS[Math.floor(Math.random() * ERROR_MSGS.length)];
+    showFeedback(randomAhead, "#888");
 }
 
 function showFeedback(text, color) {
-    feedback.textContent = text;
+    feedback.innerHTML = text;
     feedback.style.color = color;
     feedback.classList.remove('hidden');
 }
@@ -164,7 +176,9 @@ function showFeedback(text, color) {
 // --- NUEVA FUNCIÓN: EXPLOSIÓN FINAL ---
 function launchFlowerExplosion() {
     // 1. Plantar la flor principal (el Girasol final)
-    if (pendingFlower) addFlowerToGarden(pendingFlower);
+    if (pendingFlowersList.length > 0) {
+        addFlowerToGarden(pendingFlowersList[0]);
+    }
 
     // 2. Plantar muchas flores extra rápidamente
     let count = 0;
@@ -200,4 +214,4 @@ function launchCelebrationText() {
 
 // Iniciar
 buildDeck();
-showFeedback("¡Bienvenida amor! ❤️ Tu primera pista está: Debajo del teclado de la computadora ⌨️", "#d63384");
+showFeedback("¡Bienvenida amor! ❤️ <br> Tu primera pista es: Debajo del teclado de la computadora ⌨️", "#d63384");
