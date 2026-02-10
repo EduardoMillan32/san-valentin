@@ -8,7 +8,7 @@ const modalOverlay = document.getElementById('modal-overlay');
 const modalMsg = document.getElementById('modal-message');
 const btnAccept = document.getElementById('btn-accept');
 const btnReject = document.getElementById('btn-reject');
-const FLOWERS_PER_LEVEL = 2;
+const FLOWERS_PER_LEVEL = 7;
 
 // Estado
 let currentLevel = 1; 
