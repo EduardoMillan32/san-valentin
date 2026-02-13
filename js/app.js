@@ -8,7 +8,6 @@ const modalOverlay = document.getElementById('modal-overlay');
 const modalMsg = document.getElementById('modal-message');
 const btnAccept = document.getElementById('btn-accept');
 const btnReject = document.getElementById('btn-reject');
-const FLOWERS_PER_LEVEL = 7;
 
 // Estado
 let currentLevel = 1; 
@@ -26,6 +25,15 @@ const COLOR_PALETTES = [
     { name: 'Violeta', color: '#9c27b0', center: null },
     { name: 'Azul',   color: '#2196f3', center: '#ffeb3b' }
 ];
+
+function getFlowersPerLevel() {
+    // Si el ancho de la ventana es menor o igual a 768 pixeles (Celulares y Tablets pequeñas)
+    if (window.innerWidth <= 768) {
+        return 3; // <-- Flores para CELULAR
+    } else {
+        return 7; // <-- Flores para COMPUTADORA
+    }
+}
 
 // Baraja
 function buildDeck() {
@@ -127,10 +135,11 @@ function successEffect(code, data) {
     currentLevel++; 
     feedback.classList.add('hidden');
     input.value = '';
+    const flowersToPlant = getFlowersPerLevel();
 
     pendingFlowersList = [];
 
-    for (let i = 0; i < FLOWERS_PER_LEVEL; i++) {
+    for (let i = 0; i < flowersToPlant; i++) {
         const visual = getNextVisual(); // ¡Saca una carta nueva cada vez!
         
         const flowerData = {
