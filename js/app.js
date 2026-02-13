@@ -214,4 +214,4 @@ function launchCelebrationText() {
 
 // Iniciar
 buildDeck();
-showFeedback("¡Bienvenida amor! ❤️ <br> Tu primera pista es: Debajo del teclado de la computadora ⌨️", "#d63384");
+showFeedback("¡Bienvenida amor! ❤️ <br> Tu primera pista es: Tu sentido arácnido debe empezar a zumbar. Busca detrás del héroe que se columpia.", "#d63384");
