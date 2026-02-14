@@ -28,11 +28,12 @@ const GAME_DATA = {
     '14/02': {
         order: 6,
         message: "¿Quieres ser mi cita el dia de hoy?",
-        hint: "",
+        hint: "Hoy 14 de febrero quiero decirte que te amo con todo mi corazón, gracias por todos los momentos juntos, te amo y siempre te amaré 🥰",
         isFinal: true
     }
 };
 
 // Mensajes de error
 const ERROR_MSGS = ["Intenta de nuevo amor ❤️", "Ese no es 🤭 <br> busca bien "];
+
 const AHEAD_MSGS = ["¡Te adelantaste! 🙈 Guarda este para después.", "Ese es del futuro ⏳. Busca la pista anterior."];
